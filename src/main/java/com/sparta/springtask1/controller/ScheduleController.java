@@ -18,7 +18,8 @@ public class ScheduleController {
     public ScheduleDto save(@RequestBody ScheduleRequestDto scheduleDto) {
         Schedule schedule = new Schedule(scheduleDto);
 
-        int id = schedules.size()+1;
+        //int id = schedules.size()+1; // max 안하면 중간에 삭제하면 이상해짐
+        int id = schedules.size() > 0 ? Collections.max(schedules.keySet())+1 : 1;
         schedule.setId(id);
         schedule.setDate(LocalDateTime.now());
         schedules.put(id,schedule);
@@ -56,5 +57,37 @@ public class ScheduleController {
             sb.append("는 존재하지 않습니다.");
 
         return sb.toString();
+    }
+
+    /*
+        body 부분
+        주소에 id 넣고 body에 내용 넣었는데 잘못 만든거 같기도하고 body에 id까지 넣어야하나?
+        //@RequestParam이랑 @RequestBody 랑 같이 쓸 수는 없는건가?
+        { "title": "111","content": "222","name": "333","pwd": "4" }
+     */
+    @PutMapping("/updateSchedule/{id}")
+    public String updateSchedule(@PathVariable int id, @RequestBody ScheduleRequestDto scheduleDto) {
+        Schedule schedule = schedules.get(id);
+
+        if(!schedule.getPwd().equals(scheduleDto.getPwd()))
+            return "Error!! 비밀번호가 일치하지 않습니다. 업데이트 실패!!";
+
+        schedule.setTitle(scheduleDto.getTitle());
+        schedule.setContent(scheduleDto.getContent());
+        schedule.setName(scheduleDto.getName());
+        schedule.setPwd(scheduleDto.getPwd());
+        return "id : " + id + "   업데이트 완료!!";
+    }
+
+    @DeleteMapping("/deleteSchedule/{id}/{pwd}")
+    public String deleteSchedule(@PathVariable int id,@PathVariable String pwd) {
+        Schedule schedule = schedules.get(id);
+
+        if(!schedule.getPwd().equals(pwd))
+            return "Error!! 비밀번호가 일치하지 않습니다. 삭제 실패!!";
+
+        schedules.remove(id);
+
+        return "id : " + id + "   삭제 완료!!";
     }
 }

@@ -10,5 +10,4 @@ public class ScheduleRequestDto {
     private String content;
     private String name;
     private String pwd;
-    private LocalDateTime date;
 }

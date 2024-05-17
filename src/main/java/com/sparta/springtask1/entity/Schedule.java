@@ -26,7 +26,6 @@ public class Schedule {
         this.content = dto.getContent();
         this.name = dto.getName();
         this.pwd = dto.getPwd();
-        date = dto.getDate();
     }
 
     public void update(ScheduleDto dto) {
