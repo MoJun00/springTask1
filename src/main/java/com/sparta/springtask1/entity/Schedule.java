@@ -1,19 +1,12 @@
 package com.sparta.springtask1.entity;
 
-import com.sparta.springtask1.dto.ScheduleDto;
 import com.sparta.springtask1.dto.ScheduleRequestDto;
-import com.sparta.springtask1.dto.ScheduleResponseDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Schedule extends Timestamped{
     @Id
@@ -37,5 +30,11 @@ public class Schedule extends Timestamped{
         this.content = dto.getContent();
         this.name = dto.getName();
         this.pwd = dto.getPwd();
+    }
+
+    public void update(ScheduleRequestDto scheduleDto) {
+        this.title = scheduleDto.getTitle();
+        this.content = scheduleDto.getContent();
+        this.name = scheduleDto.getName();
     }
 }

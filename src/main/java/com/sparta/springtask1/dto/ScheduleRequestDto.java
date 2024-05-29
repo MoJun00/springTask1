@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor
 @Getter
-@Slf4j(topic = "AuthFilter")
+@Slf4j(topic = "DebugLog")
 public class ScheduleRequestDto {
     private String title;
     private String content;

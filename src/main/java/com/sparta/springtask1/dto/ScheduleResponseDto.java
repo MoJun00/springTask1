@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Slf4j(topic = "AuthFilter")
+@Slf4j(topic = "DebugLog")
 public class ScheduleResponseDto {
     private Long id;
     private String title;
