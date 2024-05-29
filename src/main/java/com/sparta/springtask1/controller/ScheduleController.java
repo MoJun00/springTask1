@@ -2,30 +2,30 @@ package com.sparta.springtask1.controller;
 
 import com.sparta.springtask1.dto.ScheduleDto;
 import com.sparta.springtask1.dto.ScheduleRequestDto;
+import com.sparta.springtask1.dto.ScheduleResponseDto;
 import com.sparta.springtask1.entity.Schedule;
+import com.sparta.springtask1.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j(topic = "AuthFilter")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class ScheduleController {
 
+    private final ScheduleService scheduleService;
+
     private final Map<Integer, Schedule> schedules = new HashMap<Integer, Schedule>();
 
-    @PostMapping("/saveSchedule")
-    public ScheduleDto save(@RequestBody ScheduleRequestDto scheduleDto) {
-        Schedule schedule = new Schedule(scheduleDto);
-
-        //int id = schedules.size()+1; // max 안하면 중간에 삭제하면 이상해짐
-        int id = schedules.size() > 0 ? Collections.max(schedules.keySet())+1 : 1;
-        schedule.setId(id);
-        schedule.setDate(LocalDateTime.now());
-        schedules.put(id,schedule);
-
-        ScheduleDto savedDto = new ScheduleDto(schedule);
-        return savedDto; // 저장된 일정 정보를 반환 받아 확인할 수 있습니다.
+    @PostMapping("/schedule")
+    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto requestDto) {
+        log.info("hi " + requestDto.getName());
+        return scheduleService.createSchedule(requestDto); // 나중에 유저 Id도?
     }
 
     @GetMapping("/loadSchedules")
@@ -50,8 +50,7 @@ public class ScheduleController {
             sb.append("Title : ").append(schedule.getTitle()).append("\n")
                 .append("Content : ").append(schedule.getContent()).append("\n")
                 .append("Name : ").append(schedule.getName()).append("\n")
-                .append("Pwd : ").append(schedule.getPwd()).append("\n")
-                .append("Date : ").append(schedule.getDate()).append("\n");
+                .append("Pwd : ").append(schedule.getPwd()).append("\n");
         }
         else
             sb.append("는 존재하지 않습니다.");
