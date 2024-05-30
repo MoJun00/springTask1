@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
+@Table(name = "schedule")
 @Getter
 @NoArgsConstructor
 public class Schedule extends Timestamped{
@@ -24,6 +28,9 @@ public class Schedule extends Timestamped{
 
     @Column (nullable = false)
     private String pwd; // 비밀번호
+
+    @OneToMany(mappedBy = "schedule",cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
     
     public Schedule(ScheduleRequestDto dto) {
         this.title = dto.getTitle();
