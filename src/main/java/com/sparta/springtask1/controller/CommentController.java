@@ -6,11 +6,7 @@ import com.sparta.springtask1.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j(topic = "AuthFilter")
 @RequiredArgsConstructor
@@ -20,10 +16,15 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/comment")
-    public CommentResponseDto createComment(@RequestBody @Valid CommentRequestDto commentRequestDto) {
+    public CommentResponseDto createComment(@RequestBody @Valid CommentRequestDto requestDto) {
 
-        CommentResponseDto commentResponseDto = commentService.createComment(commentRequestDto);
+        CommentResponseDto commentResponseDto = commentService.createComment(requestDto);
         log.info("id : "+commentResponseDto.getId());
         return commentResponseDto;
+    }
+
+    @PutMapping("/comment/{id}")
+    public CommentResponseDto updateComment(@PathVariable("id") Long id, @RequestBody @Valid CommentRequestDto requestDto) {
+        return commentService.updateComment(id,requestDto);
     }
 }
