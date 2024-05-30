@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CommentRequestDto {
-    @NotEmpty(message = "댓글 내용이 비어있음")
-    private String content;
+public class CommentRequestDelDto {
+    @NotEmpty(message = "유저 ID가 비어있음")
     private String userId;
 
     @NotNull(message = "일정의 id를 입력 받지 않음")

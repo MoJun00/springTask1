@@ -1,5 +1,6 @@
 package com.sparta.springtask1.controller;
 
+import com.sparta.springtask1.dto.CommentRequestDelDto;
 import com.sparta.springtask1.dto.CommentRequestDto;
 import com.sparta.springtask1.dto.CommentResponseDto;
 import com.sparta.springtask1.service.CommentService;
@@ -26,5 +27,10 @@ public class CommentController {
     @PutMapping("/comment/{id}")
     public CommentResponseDto updateComment(@PathVariable("id") Long id, @RequestBody @Valid CommentRequestDto requestDto) {
         return commentService.updateComment(id,requestDto);
+    }
+
+    @DeleteMapping("comment/{id}")
+    public String deleteComment(@PathVariable("id") Long id, @RequestBody @Valid CommentRequestDelDto requestDto) {
+        return commentService.deleteComment(id,requestDto);
     }
 }

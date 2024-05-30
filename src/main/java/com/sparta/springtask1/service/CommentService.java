@@ -1,5 +1,6 @@
 package com.sparta.springtask1.service;
 
+import com.sparta.springtask1.dto.CommentRequestDelDto;
 import com.sparta.springtask1.dto.CommentRequestDto;
 import com.sparta.springtask1.dto.CommentResponseDto;
 import com.sparta.springtask1.entity.Comment;
@@ -45,5 +46,21 @@ public class CommentService {
         comment.updateContent(requestDto.getContent());
 
         return new CommentResponseDto(comment);
+    }
+
+    public String deleteComment(Long id, CommentRequestDelDto requestDto) {
+        Schedule schedule = scheduleRepository.findById(requestDto.getSchedule_id()).orElseThrow(()->new NullPointerException("존재 하지 않는 스케쥴 ID"));
+
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new NullPointerException("존재 하지 않는 댓글 ID"));
+
+        if(comment.getUserId().equals(requestDto.getUserId())){
+            commentRepository.delete(comment);
+
+            return comment.getUserId() +" 해당 댓글이 삭제되었습니다.";
+        }
+
+
+
+        return "선택한 댓글 사용자가 현재 사용자와 일치하지 않습니다";
     }
 }
