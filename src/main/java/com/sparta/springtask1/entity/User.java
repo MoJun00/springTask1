@@ -35,4 +35,11 @@ public class User extends Timestamped{
         password = requestDto.getPassword();
         role = requestDto.getRole();
     }
+
+    public User(String nickname, String username, String password, UserRoleEnum role) {
+        this.nickname = nickname;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 }

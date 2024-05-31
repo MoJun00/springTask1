@@ -4,20 +4,27 @@ import com.sparta.springtask1.dto.UserRequestDto;
 import com.sparta.springtask1.entity.User;
 import com.sparta.springtask1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    public String createUser(UserRequestDto requestDto) {
-        User user = userRepository.findByUsername(requestDto.getUsername());
+    private final PasswordEncoder passwordEncoder;
 
-        if (user == null) {
-            userRepository.save(new User(requestDto));
-            return "생성 완료";
+    public String createUser(UserRequestDto requestDto) {
+        Optional<User> user = userRepository.findByUsername(requestDto.getUsername());
+
+        if (user.isPresent()) {
+            return "중복된 UserName 입니다.";
         }
+        String password = passwordEncoder.encode(requestDto.getPassword());
+        userRepository.save(new User(requestDto.getNickname(),requestDto.getUsername(),password,requestDto.getRole()));
+        //userRepository.save(new User(requestDto));
         System.out.println(user.toString());
-        return "중복된 UserName 입니다.";
+        return "생성 완료";
     }
 }
