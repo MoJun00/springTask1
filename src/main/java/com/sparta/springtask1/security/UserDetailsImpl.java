@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Relation;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,6 +18,8 @@ public class UserDetailsImpl implements UserDetails {
     public UserDetailsImpl(User user) {
         this.user = user;
         log.info("UserDetailsImpl created");
+        log.info("username: " + user.getUsername());
+        log.info("password: " + user.getPassword());
     }
     public User getUser() {
         return user;
@@ -48,24 +49,48 @@ public class UserDetailsImpl implements UserDetails {
         return user.getUsername();
     }
 
+    /**
+     * 계정 만료.
+     *
+     * @return 사용 여부
+     * @apiNote 사용할 경우 true를 리턴하도록 재정의.
+     */
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
+    /**
+     * 계정 잠금.
+     *
+     * @return 사용 여부
+     * @apiNote 사용할 경우 true를 리턴하도록 재정의.
+     */
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
+    /**
+     * 자격 증명 만료.
+     *
+     * @return 사용 여부
+     * @apiNote 사용할 경우 true를 리턴하도록 재정의.
+     */
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
+    /**
+     * 계정 비활성화.
+     *
+     * @return 사용 여부
+     * @apiNote 사용할 경우 true를 리턴하도록 재정의.
+     */
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 

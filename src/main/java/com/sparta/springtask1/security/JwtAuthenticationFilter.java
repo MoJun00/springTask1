@@ -32,6 +32,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
             log.info("id : " + requestDto.getUsername());
             log.info("pw : " + requestDto.getPassword());
+
+            //비밀번호 비교를 어디서 하는건지
+            //여기서 실패하는 이유가 뭐지?
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             requestDto.getUsername(),
@@ -58,6 +61,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         log.info("로그인 실패");
+        log.error(failed.getMessage());
         response.setStatus(401);
     }
 }

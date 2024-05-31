@@ -23,7 +23,11 @@ public class UserService {
         }
         String password = passwordEncoder.encode(requestDto.getPassword());
         userRepository.save(new User(requestDto.getNickname(),requestDto.getUsername(),password,requestDto.getRole()));
+        //pwd 암호화o
+
         //userRepository.save(new User(requestDto));
+        //pwd 암호화x
+
         System.out.println(user.toString());
         return "생성 완료";
     }
