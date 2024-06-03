@@ -19,6 +19,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
+    @Transactional
     public CommentResponseDto createComment(CommentRequestDto requestDto) {
 
         Schedule schedule = scheduleRepository.findById(requestDto.getSchedule_id()).orElseThrow(()->new NullPointerException("존재 하지 않는 스케쥴 ID"));
@@ -35,19 +36,20 @@ public class CommentService {
 
         Comment comment = commentRepository.findById(id).orElseThrow(()->new NullPointerException("존재 하지 않는 댓글 ID"));
 
-        if(!comment.getUserId().equals(requestDto.getUserId())){
-            try {
-                throw new IllegalAccessException("선택한 댓글 사용자가 현재 사용자와 일치하지 않습니다");
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            if(!comment.getUserId().equals(requestDto.getUserId())){
+                    throw new IllegalAccessException("선택한 댓글 사용자가 현재 사용자와 일치하지 않습니다");
+                }
         }
-
+        catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         comment.updateContent(requestDto.getContent());
 
         return new CommentResponseDto(comment);
     }
 
+    @Transactional
     public String deleteComment(Long id, CommentRequestDelDto requestDto) {
         Schedule schedule = scheduleRepository.findById(requestDto.getSchedule_id()).orElseThrow(()->new NullPointerException("존재 하지 않는 스케쥴 ID"));
 

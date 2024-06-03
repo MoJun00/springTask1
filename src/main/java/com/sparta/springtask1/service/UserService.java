@@ -6,6 +6,7 @@ import com.sparta.springtask1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public String createUser(UserRequestDto requestDto) {
         Optional<User> user = userRepository.findByUsername(requestDto.getUsername());
 
@@ -28,7 +30,7 @@ public class UserService {
         //userRepository.save(new User(requestDto));
         //pwd 암호화x
 
-        System.out.println(user.toString());
+        //System.out.println(user.toString());
         return "생성 완료";
     }
 }

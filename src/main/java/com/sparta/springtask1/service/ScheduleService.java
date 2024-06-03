@@ -20,6 +20,7 @@ import java.util.List;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
+    @Transactional
     public ScheduleResponseDto createSchedule(ScheduleRequestDto requestDto) {
         //log.info("Create schedule");
         Schedule schedule = scheduleRepository.save(new Schedule(requestDto));

@@ -1,6 +1,6 @@
 package com.sparta.springtask1.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CommentRequestDto {
-    @NotEmpty(message = "댓글 내용이 비어있음")
+    @NotBlank(message = "댓글 내용이 비어있음")
     private String content;
     private String userId;
 
